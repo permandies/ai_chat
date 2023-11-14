@@ -1,17 +1,25 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
+import 'package:ai_chat/helper/helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ImageWidget extends StatefulWidget {
-  final bool isPhotoSelected = false;
   final int photoErrorInt = 0;
   final File? selectedImage;
-  final Uint8List? imageBytes;
+  Uint8List? imageBytes;
   final String? imageUrl;
   final String? documentId;
   final Function onTap;
-  ImageWidget({super.key, this.selectedImage, this.imageBytes, this.imageUrl, this.documentId, required this.onTap});
+  ImageWidget(
+      {super.key,
+      this.selectedImage,
+      this.imageBytes,
+      this.imageUrl,
+      this.documentId,
+      required this.onTap});
 
   @override
   State<ImageWidget> createState() => _ImageWidgetState();
@@ -26,7 +34,10 @@ class _ImageWidgetState extends State<ImageWidget> {
       ),
       child: InkWell(
         onTap: () async {
-          await widget.onTap();
+          var image = await Helper.selectImage();
+          widget.onTap(image);
+          widget.imageBytes = image;
+          setState(() {});
         },
         borderRadius: BorderRadius.circular(50),
         child: Container(
@@ -36,7 +47,7 @@ class _ImageWidgetState extends State<ImageWidget> {
             color: Colors.grey.shade200,
             shape: BoxShape.circle,
           ),
-          child: widget.isPhotoSelected
+          child: widget.imageBytes != null
               ? ClipOval(
                   child: Image.memory(
                     widget.imageBytes!,

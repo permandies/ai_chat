@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(flex: 10, child: Obx(() => displayPage()))
+          Expanded(flex: 8, child: Obx(() => displayPage()))
         ],
       ),
     );

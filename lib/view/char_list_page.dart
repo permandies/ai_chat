@@ -44,13 +44,9 @@ class _CharListPageState extends State<CharListPage> {
           List<AiModel> data = [];
           for (var element in snapshot.data!.docs) {
             try {
-              print("enter");
               data.add(AiModel.formJson(element.data() as Map));
-            } catch (e) {
-              print(e);
-            }
+            } catch (e) {}
           }
-          print(data.length);
           return ListView.builder(
               itemCount: data.length,
               itemBuilder: (c, i) {
@@ -99,9 +95,9 @@ class _CharListPageState extends State<CharListPage> {
                               const Spacer(),
                               IconButton(
                                   onPressed: () {
-                                    Get.to(() => EditCharPage(
-                                        documentId: data[i].id,
-                                        imageUrl: imageUrl));
+                                    Get.to(() => EditAiModel(
+                                          aiModel: data[i],
+                                        ));
                                   },
                                   icon: const Icon(
                                     Icons.edit,
